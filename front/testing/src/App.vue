@@ -1,25 +1,30 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+    <div id="app">
+        <div class="container">
+            <router-view/>
+        </div>
+    </div>
+
 </template>
 
 <style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+
+    $background: white;
+    $border1: #87c0cd;
+    $border2: #226597;
+    $border3: #113f67;
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        background: $background;
+
+        #app {
+            padding-top: 1em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: center;
+        }
     }
-  }
-}
+
 </style>
