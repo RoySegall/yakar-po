@@ -11,21 +11,22 @@ services:
     volumes:
       - ./front:/usr/src/front
     depends_on:
-      - backend
+      []
+#      - backend
 
-  backend:
-    build: ./backend
-    ports:
-      - 8080:8080
-    entrypoint:
-      - debug=true
-    volumes:
-      - ./front:/usr/src/backend
-    depends_on:
-      - db
-
-  db:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/db-data
-      - ./database:/etc/cron.daily
+#  backend:
+#    build: ./backend
+#    ports:
+#      - 8080:8080
+#    entrypoint:
+#      - debug=true
+#    volumes:
+#      - ./front:/usr/src/backend
+#    depends_on:
+#      - db
+#
+#  db:
+#    image: postgres
+#    volumes:
+#      - db-data:/var/lib/postgresql/db-data
+#      - ./database:/etc/cron.daily
