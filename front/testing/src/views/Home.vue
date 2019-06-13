@@ -20,7 +20,7 @@
           <h3>Search results</h3>
 
           <div class="row">
-            <div class="col-4" v-for="item in items">
+            <div class="col-4" v-for="(item, i) in items" v-bind:key="i">
               <div class="row">
                 <div class="col-4">
                   <img class="img-fluid" v-bind:src="item['image']" />
@@ -61,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="trend in trends">
+            <tr v-for="(trend, i) in trends" v-bind:key="i">
               <th>{{ trend["product"] }}</th>
               <td>{{ trend["number_of_searches"] }}</td>
               <td>{{ trend["trend_since"] }}</td>
