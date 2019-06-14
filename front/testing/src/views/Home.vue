@@ -16,18 +16,23 @@
 
         <i class="fas fa-spinner fa-spin" v-if="searching"></i>
 
-        <div class="search-results" v-if="items.length > 0">
+        <div class="search-results" v-if="Object.keys(items).length !== 0">
           <h3>Search results</h3>
 
           <div class="row">
-            <div class="col-4" v-for="(item, i) in items" v-bind:key="i">
+            <div class="col-4" v-for="item in items" v-bind:key="item.id">
               <div class="row">
                 <div class="col-4">
                   <img class="img-fluid" v-bind:src="item['image']" />
                 </div>
                 <div class="col-8">
                   <span
-                    ><b>{{ item["name"] }}</b></span
+                    ><b
+                      ><router-link
+                        :to="{ name: 'productView', params: { id: item.id } }"
+                        >{{ item["name"] }}</router-link
+                      ></b
+                    ></span
                   >
                   <ul>
                     <li>Average cost: {{ item["average_price"] }}</li>
@@ -61,7 +66,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(trend, i) in trends" v-bind:key="i">
+            <tr v-for="trend in trends" v-bind:key="trend.id">
               <th>{{ trend["product"] }}</th>
               <td>{{ trend["number_of_searches"] }}</td>
               <td>{{ trend["trend_since"] }}</td>
@@ -81,6 +86,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import trends from "@/mockups/trends.js";
+import products from "@/mockups/products.js";
 
 @Component({
   components: {}
@@ -88,96 +95,20 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 export default class Home extends Vue {
   data() {
     return {
-      trends: [
-        {
-          product: "Milk",
-          number_of_searches: 1000,
-          trend_since: "Last week",
-          average_price: "5 Nis"
-        },
-        {
-          product: "Butter",
-          number_of_searches: 900,
-          trend_since: "Yesterday",
-          average_price: "5 Nis"
-        },
-        {
-          product: "Olive oil",
-          number_of_searches: 500,
-          trend_since: "Two weeks ago",
-          average_price: "5 Nis"
-        },
-        {
-          product: "Trash can bags",
-          number_of_searches: 496,
-          trend_since: "Two months ago",
-          average_price: "5 Nis"
-        },
-        {
-          product: "Sugar",
-          number_of_searches: 300,
-          trend_since: "This morning",
-          average_price: "5 Nis"
-        }
-      ],
+      trends: trends,
       productSearch: "",
       searching: false,
-      items: []
+      items: {}
     };
   }
 
   @Watch("productSearch")
   public pingSearch() {
     this.searching = true;
-    this.items = [];
+    this.items = {};
 
     setTimeout(() => {
-      this.items.push({
-        image: "http://www.office-exp.co.il/ProductsImages/L357934.jpg",
-        name: "Milk",
-        hi_price: { amount: "5 nis", location: "Rami levy" },
-        low_price: { amount: "3 nis", location: "Shufersal" }
-      });
-
-      this.items.push({
-        image:
-          "https://www.market-p.co.il/wp-content/uploads/2018/03/Geemaps.co_.il-36-4.jpg",
-        name: "Butter",
-        hi_price: { amount: "3 nis", location: "Rami levy" },
-        low_price: { amount: "2 nis", location: "Shufersal" }
-      });
-
-      this.items.push({
-        image:
-          "https://www.market-p.co.il/wp-content/uploads/2017/07/coca-cola.jpg",
-        name: "Coca cola",
-        hi_price: { amount: "6 nis", location: "Rami levy" },
-        low_price: { amount: "9 nis", location: "Shufersal" }
-      });
-
-      this.items.push({
-        image:
-          "https://www.market-p.co.il/wp-content/uploads/2018/03/Geemaps.co_.il-36-4.jpg",
-        name: "Butter",
-        hi_price: { amount: "3 nis", location: "Rami levy" },
-        low_price: { amount: "2 nis", location: "Shufersal" }
-      });
-
-      this.items.push({
-        image: "http://www.office-exp.co.il/ProductsImages/L357934.jpg",
-        name: "Milk",
-        hi_price: { amount: "5 nis", location: "Rami levy" },
-        low_price: { amount: "3 nis", location: "Shufersal" }
-      });
-
-      this.items.push({
-        image:
-          "https://www.market-p.co.il/wp-content/uploads/2017/07/coca-cola.jpg",
-        name: "Coca cola",
-        hi_price: { amount: "6 nis", location: "Rami levy" },
-        low_price: { amount: "9 nis", location: "Shufersal" }
-      });
-
+      this.items = products;
       this.searching = false;
     }, 1000);
   }
