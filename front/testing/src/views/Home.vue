@@ -8,7 +8,7 @@
             class="form-control product-search"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
-            placeholder="Search for product"
+            placeholder="Search for products"
             v-model="productSearch"
           />
           <div class="search"><i class="fal fa-search"></i></div>
@@ -67,11 +67,16 @@
           </thead>
           <tbody>
             <tr v-for="trend in trends" v-bind:key="trend.id">
-              <th>{{ trend["product"] }}</th>
+              <td>{{ trend["product"] }}</td>
               <td>{{ trend["number_of_searches"] }}</td>
               <td>{{ trend["trend_since"] }}</td>
               <td>{{ trend["average_price"] }}</td>
             </tr>
+
+            <tr v-if="trends.length === 0">
+              <td colspan="4" class="text-center loading"><i class="fal fa-spinner fa-spin"></i></td>
+            </tr>
+
             <tr>
               <td colspan="4" class="text-center load-more">
                 <i class="fal fa-layer-plus"></i> Load more
@@ -86,16 +91,30 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import trends from "@/mockups/trends.js";
-import products from "@/mockups/products.js";
+
+import ProductsService from "@/services/ProductsService";
+import TrendsService from "@/services/TrendsService";
 
 @Component({
   components: {}
 })
 export default class Home extends Vue {
-  data() {
+
+  public ProductsService: ProductsService;
+  public TrendsService: TrendsService;
+
+  public created() {
+    this.ProductsService = new ProductsService();
+    this.TrendsService = new TrendsService();
+  }
+
+  public async mounted() {
+    this.trends = await this.TrendsService.getLatestTrends();
+  }
+
+  public data() {
     return {
-      trends: trends,
+      trends: [],
       productSearch: "",
       searching: false,
       items: {}
@@ -103,20 +122,19 @@ export default class Home extends Vue {
   }
 
   @Watch("productSearch")
-  public pingSearch() {
-    this.searching = true;
-    this.items = {};
+  public async pingSearch(search: string) {
 
-    setTimeout(() => {
-      this.items = products;
-      this.searching = false;
-    }, 1000);
+    this.searching = true;
+    this.items = await this.ProductsService.getProductsByString(search);
+    this.searching = false;
   }
 }
 </script>
 
 <style lang="scss">
 .header {
+  padding-top: 1em;
+
   .form-group {
     position: relative;
 
@@ -170,7 +188,7 @@ export default class Home extends Vue {
   }
 
   table {
-    .load-more {
+    .load-more, .loading {
       font-size: 1.5em;
     }
   }

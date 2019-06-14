@@ -18,7 +18,6 @@ body {
   background: $background;
 
   #app {
-    padding-top: 1em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;

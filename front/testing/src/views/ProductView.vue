@@ -1,6 +1,10 @@
 <template>
   <div class="row">
-    <div class="offset-2 col-8 justify-content-center">
+    <div class="col-12">
+
+      <PagesHeader></PagesHeader>
+      <BreadCrumbs></BreadCrumbs>
+
       {{ product.name }}
     </div>
   </div>
@@ -9,9 +13,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import products from "@/mockups/products.js";
+import PagesHeader from "@/components/PagesHeader";
+import BreadCrumbs from "@/components/BreadCrumbs";
 
 @Component({
-  components: {}
+  components: {PagesHeader, BreadCrumbs}
 })
 export default class ProductView extends Vue {
   public data() {
