@@ -9,4 +9,18 @@ export default class ProductsService {
             }, 1000);
         });
     }
+
+    async getProductById(id: any) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+
+                if (Object.keys(products).indexOf(id) === 1) {
+                    resolve(null);
+                    return;
+                }
+
+                resolve(products[id]);
+            }, 500);
+        });
+    }
 }

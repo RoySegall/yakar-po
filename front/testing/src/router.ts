@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import ProductsService from "@/services/ProductsService";
 
 Vue.use(Router);
 
@@ -16,7 +17,18 @@ export default new Router({
     {
       path: "/product/:id",
       name: "productView",
-      component: () => import("./views/ProductView.vue")
+      component: () => import("./views/ProductView.vue"),
+      beforeEnter: async (to, from, next) => {
+
+        const ps = new ProductsService();
+        const product = await ps.getProductById(to['params']['id']);
+
+        if (product == null) {
+          next('/');
+        }
+
+        next();
+      }
     }
   ]
 });
