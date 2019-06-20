@@ -66,12 +66,24 @@
               <h3>Average price over the years</h3>
             </div>
 
-            <div class="col-4">
-              asad
+            <div class="col-2">
+              <label for="from-date" class="col-2 col-form-label">From</label>
+              <input class="form-control" type="datetime-local" value="2018-07-22T23:00:00" id="from-date" />
+            </div>
+            <div class="col-2">
+              <label for="to-date" class="col-2 col-form-label">To</label>
+              <input class="form-control" type="datetime-local" value="2018-07-21T23:00:00" id="to-date"/>
             </div>
           </div>
 
           <hr />
+        </div>
+        <div class="col-12">
+          <VueApexCharts type=area height=350 :options="chartOptions" :series="series"></VueApexCharts>
+        </div>
+
+        <div class="col-12">
+          <a href="#">Go to price explorer</a>
         </div>
       </section>
 
@@ -84,10 +96,11 @@ import { Component, Vue } from "vue-property-decorator";
 import PagesHeader from "@/components/PagesHeader";
 import BreadCrumbs from "@/components/BreadCrumbs";
 import ProductsService from "@/services/ProductsService";
+import VueApexCharts from 'vue-apexcharts'
 
 
 @Component({
-  components: {PagesHeader, BreadCrumbs}
+  components: {PagesHeader, BreadCrumbs, VueApexCharts}
 })
 export default class ProductView extends Vue {
 
@@ -99,11 +112,28 @@ export default class ProductView extends Vue {
 
   public async mounted() {
     this.product = await this.ProductsService.getProductById(this.$route.params.id);
+    this.series = this.product.prices.yearAverage;
   }
 
   public data() {
     return {
-      product: {}
+      product: {},
+      chartOptions: {
+        chart: {
+          height: 380,
+          width: "100%",
+          type: "area",
+          animations: {
+            initialAnimation: {
+              enabled: false
+            }
+          }
+        },
+        xaxis: {
+          type: 'datetime'
+        }
+      },
+      series: []
     };
   }
 }
