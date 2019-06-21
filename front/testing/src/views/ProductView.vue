@@ -62,28 +62,30 @@
       <section class="row averages-explorer">
         <div class="col-12">
           <div class="row">
-            <div class="col-8">
+            <div class="col-6">
               <h3>Average price over the years</h3>
             </div>
 
-            <div class="col-2">
+            <div class="col-3 date-picker">
               <label for="from-date" class="col-2 col-form-label">From</label>
               <input class="form-control" type="datetime-local" value="2018-07-22T23:00:00" id="from-date" />
             </div>
-            <div class="col-2">
+            <div class="col-3 date-picker">
               <label for="to-date" class="col-2 col-form-label">To</label>
               <input class="form-control" type="datetime-local" value="2018-07-21T23:00:00" id="to-date"/>
             </div>
           </div>
 
           <hr />
-        </div>
-        <div class="col-12">
-          <VueApexCharts type=area height=350 :options="chartOptions" :series="series"></VueApexCharts>
-        </div>
-
-        <div class="col-12">
-          <a href="#">Go to price explorer</a>
+          <div class="col-12">
+            <VueApexCharts type=area height=350 :options="chartOptions" :series="series"></VueApexCharts>
+          </div>
+          <div class="col-12 h5">
+            If you're looking for more detailed prices you can go to the
+            <router-link :to="{ name: 'priceExplorer', params: { id: this.$route.params.id } }">
+              Price explorer
+            </router-link>.
+          </div>
         </div>
       </section>
 
@@ -157,6 +159,19 @@ export default class ProductView extends Vue {
 
     .averages-explorer {
       padding-top: 2em;
+
+      .date-picker {
+        text-align: right;
+
+        label {
+          display: inline-block;
+        }
+
+        input {
+          display: inline-block;
+          width: 60%;
+        }
+      }
     }
   }
 </style>

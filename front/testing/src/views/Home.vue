@@ -26,14 +26,11 @@
                   <img class="img-fluid" v-bind:src="item['image']" />
                 </div>
                 <div class="col-8">
-                  <span
-                    ><b
-                      ><router-link
-                        :to="{ name: 'productView', params: { id: item.id } }"
-                        >{{ item["name"] }}</router-link
-                      ></b
-                    ></span
-                  >
+                  <span>
+                    <b>
+                      <router-link :to="{ name: 'productView', params: { id: item.id } }">{{ item["name"] }}</router-link>
+                    </b>
+                  </span>
                   <ul>
                     <li>Average cost: {{ item["average_price"] }}</li>
                     <li>

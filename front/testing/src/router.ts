@@ -5,6 +5,18 @@ import ProductsService from "@/services/ProductsService";
 
 Vue.use(Router);
 
+const productBeforeEnter = async (to: any, from: any, next: any) => {
+
+  const ps = new ProductsService();
+  const product = await ps.getProductById(to['params']['id']);
+
+  if (product == null) {
+    next('/');
+  }
+
+  next();
+};
+
 export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
@@ -18,17 +30,13 @@ export default new Router({
       path: "/product/:id",
       name: "productView",
       component: () => import("./views/ProductView.vue"),
-      beforeEnter: async (to, from, next) => {
-
-        const ps = new ProductsService();
-        const product = await ps.getProductById(to['params']['id']);
-
-        if (product == null) {
-          next('/');
-        }
-
-        next();
-      }
-    }
+      beforeEnter: productBeforeEnter,
+    },
+    {
+      path: "/product/:id/price-explorer",
+      name: "priceExplorer",
+      component: () => import("./views/PriceExplorer.vue"),
+      beforeEnter: productBeforeEnter,
+    },
   ]
 });
