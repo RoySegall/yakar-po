@@ -10,7 +10,7 @@
         </div>
       </section>
 
-      <ProductHeader v-if="Object.keys(product).length !== 0" :product=product :inPriceExplorer=false ></ProductHeader>
+      <ProductHeader v-if="Object.keys(product).length !== 0" :product=product :inPriceExplorer=false></ProductHeader>
       <ProductSample v-if="product.samples !== null" :product=product class="product-samples"></ProductSample>
       <ProductAverageExplorer :product="product"></ProductAverageExplorer>
 
