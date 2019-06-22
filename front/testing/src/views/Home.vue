@@ -15,73 +15,10 @@
         </div>
 
         <i class="fas fa-spinner fa-spin" v-if="searching"></i>
-
-        <div class="search-results" v-if="Object.keys(items).length !== 0">
-          <h3>Search results</h3>
-
-          <div class="row">
-            <div class="col-4" v-for="item in items" v-bind:key="item.id">
-              <div class="row">
-                <div class="col-4">
-                  <img class="img-fluid" v-bind:src="item['image']" />
-                </div>
-                <div class="col-8">
-                  <span>
-                    <b>
-                      <router-link :to="{ name: 'productView', params: { id: item.id } }">{{ item["name"] }}</router-link>
-                    </b>
-                  </span>
-                  <ul>
-                    <li>Average cost: {{ item["average_price"] }}</li>
-                    <li>
-                      Hi price: {{ item["hi_price"]["amount"] }} at
-                      <b>{{ item["hi_price"]["location"] }}</b>
-                    </li>
-                    <li>
-                      Low price: {{ item["low_price"]["amount"] }} at
-                      <b>{{ item["low_price"]["location"] }}</b>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SearchResultItem :items="items" v-if="Object.keys(items).length !== 0" class="search-section"></SearchResultItem>
       </section>
 
-      <section class="trending">
-        <h2>Trending</h2>
-        <hr />
-
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Number of searches</th>
-              <th scope="col">Trending since</th>
-              <th scope="col">Average price</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="trend in trends" v-bind:key="trend.id">
-              <td>{{ trend["product"] }}</td>
-              <td>{{ trend["number_of_searches"] }}</td>
-              <td>{{ trend["trend_since"] }}</td>
-              <td>{{ trend["average_price"] }}</td>
-            </tr>
-
-            <tr v-if="trends.length === 0">
-              <td colspan="4" class="text-center loading"><i class="fal fa-spinner fa-spin"></i></td>
-            </tr>
-
-            <tr>
-              <td colspan="4" class="text-center load-more">
-                <i class="fal fa-layer-plus"></i> Load more
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <Trends :trends="trends" class="trends"></Trends>
     </div>
   </div>
 </template>
@@ -92,8 +29,11 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import ProductsService from "@/services/ProductsService";
 import TrendsService from "@/services/TrendsService";
 
+import SearchResultItem from "@/components/Home/SearchResultItem"
+import Trends from "@/components/Home/Trends"
+
 @Component({
-  components: {}
+  components: {SearchResultItem, Trends}
 })
 export default class Home extends Vue {
 
@@ -111,7 +51,7 @@ export default class Home extends Vue {
 
   public data() {
     return {
-      trends: [],
+      trends: {},
       productSearch: "",
       searching: false,
       items: {}
@@ -160,34 +100,6 @@ export default class Home extends Vue {
     font-size: 3em;
   }
 
-  .search-results {
-    padding-top: 2em;
-    text-align: left;
 
-    ul {
-      padding: 0;
-
-      li {
-        margin: 0;
-        list-style: none;
-      }
-    }
-  }
-}
-
-.trending {
-  padding-top: 5em;
-  text-align: left;
-
-  hr {
-    width: 100%;
-    background: #0095ff;
-  }
-
-  table {
-    .load-more, .loading {
-      font-size: 1.5em;
-    }
-  }
 }
 </style>
