@@ -1,24 +1,15 @@
 <template>
   <div class="row">
+    <div class="col-12">
+      <PagesHeader></PagesHeader>
+    </div>
+
     <div class="offset-2 col-8 justify-content-center">
-      <section class="header">
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control product-search"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Search for products"
-            v-model="productSearch"
-          />
-          <div class="search"><i class="fal fa-search"></i></div>
-        </div>
-
-        <i class="fas fa-spinner fa-spin" v-if="searching"></i>
-        <SearchResultItem :items="items" v-if="Object.keys(items).length !== 0" class="search-section"></SearchResultItem>
-      </section>
-
-      <Trends :trends="trends" class="trends"></Trends>
+        <SearchResultItem
+                mode="frontPage"
+                class="search-section">
+        </SearchResultItem>
+        <Trends :trends="trends" class="trends"></Trends>
     </div>
   </div>
 </template>
@@ -26,22 +17,20 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-import ProductsService from "@/services/ProductsService";
 import TrendsService from "@/services/TrendsService";
+import PagesHeader from "@/components/PagesHeader";
 
 import SearchResultItem from "@/components/Home/SearchResultItem"
 import Trends from "@/components/Home/Trends"
 
 @Component({
-  components: {SearchResultItem, Trends}
+  components: {SearchResultItem, Trends, PagesHeader}
 })
 export default class Home extends Vue {
 
-  public ProductsService: ProductsService;
   public TrendsService: TrendsService;
 
   public created() {
-    this.ProductsService = new ProductsService();
     this.TrendsService = new TrendsService();
   }
 
@@ -54,16 +43,7 @@ export default class Home extends Vue {
       trends: {},
       productSearch: "",
       searching: false,
-      items: {}
     };
-  }
-
-  @Watch("productSearch")
-  public async pingSearch(search: string) {
-
-    this.searching = true;
-    this.items = await this.ProductsService.getProductsByString(search);
-    this.searching = false;
   }
 }
 </script>
@@ -95,11 +75,5 @@ export default class Home extends Vue {
       }
     }
   }
-
-  .fa-spinner {
-    font-size: 3em;
-  }
-
-
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="row product-page">
     <div class="col-12">
 
-      <PagesHeader></PagesHeader>
+      <PagesHeader mode="innerPage"></PagesHeader>
 
       <section class="row" v-if="Object.keys(product).length === 0">
         <div class="col-12 text-center">
@@ -10,9 +10,11 @@
         </div>
       </section>
 
-      <ProductHeader v-if="Object.keys(product).length !== 0" :product=product :inPriceExplorer=false></ProductHeader>
-      <ProductSample v-if="product.samples !== null" :product=product class="product-samples"></ProductSample>
-      <ProductAverageExplorer :product="product"></ProductAverageExplorer>
+      <div v-if="Object.keys(product).length !== 0">
+        <ProductHeader :product=product :inPriceExplorer=false></ProductHeader>
+        <ProductSample v-if="product.samples !== null" :product=product class="product-samples"></ProductSample>
+        <ProductAverageExplorer :product="product"></ProductAverageExplorer>
+      </div>
 
     </div>
   </div>
@@ -26,12 +28,13 @@ import BreadCrumbs from "@/components/BreadCrumbs";
 import ProductHeader from "@/components/Product/ProductHeader";
 import ProductSample from "@/components/Product/ProductSample";
 import ProductAverageExplorer from "@/components/Product/ProductAverageExplorer";
+import SearchResultItem from "@/components/Home/SearchResultItem"
 
 import ProductsService from "@/services/ProductsService";
 
 
 @Component({
-  components: {PagesHeader, BreadCrumbs, ProductHeader, ProductSample, ProductAverageExplorer}
+  components: {PagesHeader, BreadCrumbs, ProductHeader, ProductSample, ProductAverageExplorer, SearchResultItem}
 })
 export default class ProductView extends Vue {
 

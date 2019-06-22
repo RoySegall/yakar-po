@@ -5,19 +5,38 @@
         </div>
 
         <div class="col-8 text-left">
-            <input type="text" class="product-search" placeholder="Search for products"/>
+            <div class="form-group">
+                <input type="text" class="product-search" placeholder="Search for products" v-model="productSearch" />
+                <div class="search"><i class="fal fa-search"></i></div>
+                <SearchResultItem mode="innerPage" v-if="mode === 'innerPage'"></SearchResultItem>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Vue, Watch, Prop} from "vue-property-decorator";
+    import SearchResultItem from "@/components/Home/SearchResultItem"
+
 
     @Component({
-        components: {}
+        components: {SearchResultItem}
     })
 
     export default class PagesHeader extends Vue {
+        @Prop(String) readonly mode!: string;
+
+
+        data() {
+            return {
+                productSearch: '',
+            }
+        }
+
+        @Watch("productSearch")
+        public pingSearch(search: string) {
+            this.$store.commit('fireSearch', search);
+        }
     }
 </script>
 
@@ -42,19 +61,30 @@
             }
         }
 
-        .product-search {
-            border: #0067cd solid 1px;
-            height: 3em;
-            width: 100%;
-            background: #b6d9ff;
-            color: black;
-            border-radius: .25em;
-            padding-left: .75em;
+        .form-group {
+            position: relative;
 
-            &::placeholder {
-                color: #0095ff;
+            .product-search {
+                border: #0067cd solid 1px;
+                height: 3em;
+                width: 100%;
+                background: #b6d9ff;
+                color: black;
+                border-radius: 0;
+                padding-left: .75em;
+
+                &::placeholder {
+                    color: #0095ff;
+                }
+            }
+
+            .search {
+                position: absolute;
+                bottom: 0.25em;
+                right: 1em;
+                font-size: 1.5em;
+                color: white;
             }
         }
     }
-
 </style>

@@ -2,7 +2,7 @@
   <div class="row price-explorer">
     <div class="col-12">
 
-      <PagesHeader></PagesHeader>
+      <PagesHeader mode="innerPage"></PagesHeader>
 
       <section class="row" v-if="Object.keys(product).length === 0">
         <div class="col-12 text-center">
