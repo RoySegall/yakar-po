@@ -6,10 +6,6 @@ export default {
         searchResults: [],
     },
     mutations: {
-        setSearching(state: any, mode: boolean) {
-            state.searching = mode;
-        },
-
         async fireSearch(state: any, text: string) {
             const productService = new ProductsService();
 

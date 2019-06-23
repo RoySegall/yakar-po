@@ -11,6 +11,13 @@
                 <SearchResultItem mode="innerPage" v-if="mode === 'innerPage'"></SearchResultItem>
             </div>
         </div>
+
+        <div class="col-2 cart-container">
+            <div class="cart-wrapper">
+                <div class="info"><span class="text">{{getCartItems().length}}</span> items</div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -36,6 +43,10 @@
         @Watch("productSearch")
         public pingSearch(search: string) {
             this.$store.commit('fireSearch', search);
+        }
+
+        public getCartItems() {
+            return this.$store.state.cart.items;
         }
     }
 </script>
@@ -85,6 +96,12 @@
                 font-size: 1.5em;
                 color: white;
             }
+        }
+
+        .cart-container {
+            text-align: left;
+            padding-top: .25em;
+            font-size: 1.5em;
         }
     }
 </style>

@@ -2,6 +2,7 @@
     <section class="row product-header">
         <div class="col-2">
             <img v-bind:src="product.image" class="img-fluid" />
+            <AddToCart :product="product" class="text-center product-add"></AddToCart>
         </div>
 
         <div class="col-10">
@@ -55,9 +56,10 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from "vue-property-decorator";
+    import AddToCart from "@/components/AddToCart"
 
     @Component({
-        components: {}
+        components: {AddToCart}
     })
     export default class ProductHeader extends Vue {
         @Prop(Object) readonly product!: object;
@@ -74,6 +76,10 @@
             p {
                 width: 100%;
             }
+        }
+
+        .product-add {
+            padding-top: .5em;
         }
     }
 </style>

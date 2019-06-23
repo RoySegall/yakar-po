@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-1"><img class="img-fluid" v-bind:src="item['image']" /></div>
                             <div class="col-9">
-                                <span class="h5">{{item.name}}</span> - Average cost: {{ item["average_price"] }}
+                                <span class="h5"><router-link :to="{ name: 'productView', params: { id: item.id } }">{{item.name}}</router-link></span> - Average cost: {{ item["average_price"] }}
 
                                 <ul>
                                     <li>
@@ -27,6 +27,9 @@
                                         <b>{{ item["low_price"]["location"] }}</b>
                                     </li>
                                 </ul>
+                            </div>
+                            <div class="col-2">
+                                <AddToCart :product="item"></AddToCart>
                             </div>
                         </div>
                     </li>
@@ -75,9 +78,10 @@
 
 <script lang="ts">
     import { Component, Vue, Prop } from "vue-property-decorator";
+    import AddToCart from "@/components/AddToCart"
 
     @Component({
-        components: {}
+        components: {AddToCart}
     })
     export default class SearchResultItem extends Vue {
         @Prop(String) readonly mode!: string;
@@ -88,10 +92,6 @@
 
         public getSearch() {
             return this.$store.state.search.searching;
-        }
-
-        public getDisplayInnerPage() {
-            return this.$store.getters.isSearchProgress;
         }
 
         public closeSearch() {
