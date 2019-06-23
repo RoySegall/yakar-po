@@ -39,6 +39,11 @@ const router = new Router({
       component: () => import("./views/PriceExplorer.vue"),
       beforeEnter: productBeforeEnter,
     },
+    {
+      path: "/cart",
+      name: "cart",
+      component: () => import("./views/Cart.vue"),
+    },
   ],
 });
 

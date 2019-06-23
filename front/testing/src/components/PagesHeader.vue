@@ -14,9 +14,12 @@
 
         <div class="col-2 cart-container">
             <div class="cart-wrapper">
-                <div class="info"><span class="text">{{getCartItems().length}}</span> items</div>
+                <div class="info">
+                    <router-link :to="{name: 'cart'}">
+                        <span class="text">{{getCartItems().length}} items</span>
+                    </router-link>
+                </div>
             </div>
-
         </div>
     </div>
 </template>
